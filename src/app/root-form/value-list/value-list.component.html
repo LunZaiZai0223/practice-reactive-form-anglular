@@ -1,0 +1,18 @@
+<ng-container *ngFor="let item of list">
+  <h3>
+    Data ID: {{ item.id }}
+  </h3>
+  <div>
+    {{ item.father.name }}
+  </div>
+  <div>
+    {{ item.mother.name }}
+  </div>
+  <div>
+    {{ item.employee.name }}
+  </div>
+  <div>
+    <button class="btn btn-info me-2" (click)="onEmitEditId(item.id)">Edit</button>
+    <button class="btn btn-danger" (click)="onEmitEditIdForDelete(item.id)">Delete</button>
+  </div>
+</ng-container>

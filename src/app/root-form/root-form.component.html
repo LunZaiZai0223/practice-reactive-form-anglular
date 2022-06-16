@@ -1,0 +1,306 @@
+<div class="row">
+  <div class="col-12">
+    {{ myForm.value | json }}
+    <p>Form.status: <span>{{ myForm.status }}</span></p>
+  </div>
+  <form
+    class="border"
+    [formGroup]="myForm"
+    (ngSubmit)="onSubmit()"
+  >
+    <div>
+      <button
+        type="button"
+        (click)="onFillInParentForm()"
+      >
+        快速填寫
+      </button>
+    </div>
+
+    <div class="row py-3">
+
+      <div class="col-6">
+        <div formGroupName="father">
+          <h3>Father</h3>
+          <div class="mb-3">
+            <label for="father-name" class="form-label">Name(*):</label>
+            <input
+              id="father-name"
+              type="text"
+              class="form-control"
+              [ngClass]="{
+              'is-invalid': myForm.get('father.name')?.errors &&
+              (myForm.get('father.name')?.touched || myForm.get('father.name')?.dirty),
+              'is-valid': myForm.get('father.name')?.valid 
+              }"
+              placeholder="father's name"
+              formControlName="name"
+            />
+            <div
+              *ngIf="myForm.get('father.name')?.invalid && myForm.get('father.name')?.touched"
+              class="invalid-feedback">
+              <span
+                *ngIf="myForm.get('father.name')?.hasError('required')"
+              >
+                required
+              </span>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="father-id" class="form-label">ID(*):</label>
+            <input
+              id="father-id"
+              type="text"
+              class="form-control"
+              [ngClass]="{
+              'is-invalid': myForm.get('father.id')?.errors && (myForm.get('father.id')?.touched ||
+              myForm.get('father.id')?.dirty),
+              'is-valid': myForm.get('father.id')?.valid 
+              }"
+              placeholder="father's id"
+              maxlength="10"
+              formControlName="id"
+            />
+            <div
+              *ngIf="myForm.get('father.id')?.invalid && (myForm.get('father.id')?.touched ||
+              myForm.get('father.id')?.dirty)"
+              class="invalid-feedback">
+              <span
+                *ngIf="myForm.get('father.id')?.hasError('required')"
+              >
+                required
+              </span>
+              <span
+                *ngIf="myForm.get('father.id')?.hasError('pattern')"
+              >
+                invalid id
+              </span>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="father-birthday" class="form-label">Birthday:</label>
+            <input
+              id="father-birthday"
+              type="text"
+              maxlength="8"
+              class="form-control"
+              [ngClass]="{
+              'is-invalid': myForm.get('father.birthday')?.errors, 
+              'is-valid': myForm.get('father.birthday')?.touched && myForm.get('father.birthday')?.valid 
+              }"
+              placeholder="father's birthday: yyyymmdd"
+              formControlName="birthday"
+            />
+            <div
+              *ngIf="myForm.get('father.birthday')?.invalid"
+              class="invalid-feedback">
+              <span
+                *ngIf="myForm.get('father.birthday')?.hasError('minLength') ||
+                myForm.get('father.birthday')?.hasError('pattern') ||
+                myForm.get('father.birthday')?.hasError('invalidBirthday')"
+              >
+                invalid birthday
+              </span>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="father-age" class="form-label">Age(*):</label> 
+            <input
+              id="father-age"
+              type="text"
+              class="form-control"
+              [ngClass]="{
+              'is-invalid': myForm.get('father.age')?.errors && (myForm.get('father.age')?.touched
+              || myForm.get('father.age')?.dirty),
+              'is-valid': myForm.get('father.age')?.valid 
+              }"
+              placeholder="father's age"
+              maxlength="3"
+              formControlName="age"
+            />
+            <div
+              *ngIf="myForm.get('father.age')?.invalid && myForm.get('father.age')?.touched"
+              class="invalid-feedback">
+              <span
+                *ngIf="myForm.get('father.age')?.hasError('required')"
+              >
+                required
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div formGroupName="mother">
+          <h3>Mother</h3>
+          <div class="mb-3">
+            <label for="mother-name" class="form-label">Name(*):</label>
+            <input
+              id="mother-name"
+              class="form-control"
+              [ngClass]="{
+              'is-invalid': myForm.get('mother.name')?.errors &&
+              (myForm.get('mother.name')?.touched || myForm.get('mother.name')?.dirty), 
+              'is-valid': myForm.get('mother.name')?.valid 
+              }"
+              type="text"
+              placeholder="mother's name"
+              formControlName="name"
+            />
+            <div
+              *ngIf="myForm.get('mother.name')?.invalid && myForm.get('mother.name')?.touched"
+              class="invalid-feedback">
+              <span
+                *ngIf="myForm.get('mother.name')?.hasError('required')"
+              >
+                required
+              </span>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="mother-id" class="form-label">ID(*):</label>
+            <input
+              id="mother-id"
+              class="form-control"
+              [ngClass]="{
+              'is-invalid': myForm.get('mother.id')?.errors && (myForm.get('mother.id')?.touched ||
+              myForm.get('mother.id')?.dirty),
+              'is-valid': myForm.get('mother.id')?.valid
+              }"
+              type="text"
+              maxlength="10"
+              placeholder="mother's id"
+              formControlName="id"
+            />
+            <div
+              *ngIf="myForm.get('mother.id')?.invalid && (myForm.get('mother.id')?.touched ||
+              myForm.get('mother.id')?.dirty)"
+              class="invalid-feedback">
+              <span
+                *ngIf="myForm.get('mother.id')?.hasError('required')"
+              >
+                required
+              </span>
+              <span
+                *ngIf="myForm.get('mother.id')?.hasError('pattern')"
+              >
+                invalid id
+              </span>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="mother-birthday" class="form-label">Birthday:</label>
+            <input
+              id="mother-birthday"
+              class="form-control"
+              [ngClass]="{
+              'is-invalid': myForm.get('mother.birthday')?.errors, 
+              'is-valid': myForm.get('mother.birthday')?.touched && myForm.get('mother.birthday')?.valid 
+              }"
+              type="text"
+              maxlength="8"
+              placeholder="mother's birthday: yyyymmdd"
+              formControlName="birthday"
+            />
+            <div
+              *ngIf="myForm.get('mother.birthday')?.invalid"
+              class="invalid-feedback">
+              <span
+                *ngIf="myForm.get('mother.birthday')?.hasError('minLength') ||
+                myForm.get('mother.birthday')?.hasError('pattern') ||
+                myForm.get('mother.birthday')?.hasError('invalidBirthday')"
+              >
+                invalid birthday
+              </span>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="mother-age" class="form-label">Age:</label> 
+            <input
+              id="mother-age"
+              class="form-control"
+              [ngClass]="{
+              'is-invalid': myForm.get('mother.age')?.errors && (myForm.get('mother.age')?.touched
+              || myForm.get('mother.age')?.dirty),
+              'is-valid': myForm.get('mother.age')?.valid
+              }"
+              type="text"
+              placeholder="mother's day"
+              formControlName="age"
+            />
+            <div
+              *ngIf="myForm.get('mother.age')?.invalid && myForm.get('mother.age')?.touched"
+              class="invalid-feedback">
+              <span
+                *ngIf="myForm.get('mother.age')?.hasError('required')"
+              >
+                required
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+    <!-- NOTE: only pass STRING to child not properties of parent -->
+    <app-child-form
+      formGroupName="employee"
+      *ngIf="fatherGroup.valid && motherGroup.valid"
+    ></app-child-form>
+      <!-- *ngIf="fatherGroup.valid && motherGroup.valid" -->
+
+    <!-- NOTE: 實驗用最後 addControl 回 parent -->
+    <!-- <app-sub-form -->
+    <!--   (formReady)="addChildForm('employeeForm', $event)" -->
+    <!-- ></app-sub-form> -->
+
+    <div class="d-flex justify-content-end my-4">
+      <button 
+        type="submit"
+        class="btn btn-success"
+        [disabled]="myForm.invalid"
+        *ngIf="!editId"
+      >
+        <!-- [disabled]="myForm.invalid" -->
+        Submit
+      </button>
+      <button
+        type="button"
+        class="btn btn-warning"
+        *ngIf="editId"
+        (click)="onBackToNormalMode()"
+      >
+        Cancel
+      </button>
+      <button
+        type="button"
+        class="btn btn-secondary mx-3"
+        *ngIf="editId"
+        [disabled]="myForm.invalid"
+        (click)="onSaveEdit()"
+      >
+        Edit
+      </button>
+      <button
+        type="button"
+        class="btn btn-danger"
+        *ngIf="editId"
+        (click)="onDeleteCurrentItem()"
+      >
+        Delete
+      </button>
+    </div>
+
+  </form>
+  <!-- <button class="btn btn-info" (click)="testCheck()">Check</button> -->
+    <!-- [list]="valueList" -->
+    <!-- [reload]="needReloadList" -->
+  <app-value-list 
+    [childStringifiedList]="parentStringifiedList"
+    (onEmittedEditId)="onSetEditMode($event)"
+    (onEmittedEditIdForDelete)="onDeletedSessionStorageItem($event)"
+  ></app-value-list>
+</div>

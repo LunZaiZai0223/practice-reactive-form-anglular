@@ -1,0 +1,382 @@
+<div
+  class="row"
+  [formGroup]="childForm"
+>
+  <div class="col-12">
+    <h3>Employee</h3>
+
+    <!-- NOTE: 沒有用 @Input 接 value 時必須手動新增 group -->
+    <!-- <div formGroupName="employee"> -->
+
+    <div class="mb-3">
+      <label for="name" class="form-label">Name:</label>
+      <input 
+        type="text"
+        id="name"
+        [ngClass]="{
+        'is-invalid': childForm.get('name')?.errors && childForm.get('name')?.touched,
+        'is-valid': childForm.get('name')?.dirty && childForm.get('name')?.valid 
+        }"
+        class="form-control"
+        formControlName="name"
+      />
+      <div
+        *ngIf="childForm.get('name')?.invalid && childForm.get('name')?.touched"
+        class="invalid-feedback">
+        <span
+          *ngIf="childForm.get('name')?.hasError('required')"
+        >
+          required
+        </span>
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="id" class="form-label">ID(*):</label>
+      <input
+        id="id"
+        class="form-control"
+        [ngClass]="{
+        'is-invalid': childForm.get('id')?.errors && (childForm.get('id')?.touched ||
+        childForm.get('id')?.dirty),
+        'is-valid': childForm.get('id')?.dirty && childForm.get('id')?.valid
+        }"
+        type="text"
+        maxlength="10"
+        class="form-control"
+        formControlName="id"
+      />
+      <div
+        *ngIf="childForm.get('id')?.invalid && (childForm.get('id')?.touched ||
+        childForm.get('id')?.dirty)"
+        class="invalid-feedback">
+        <span
+          *ngIf="childForm.get('id')?.hasError('required')"
+        >
+          required
+        </span>
+        <span
+          *ngIf="childForm.get('id')?.hasError('pattern')"
+        >
+          invalid id
+        </span>
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="birthday" class="form-label">Birthday:</label>
+      <input
+        id="birthday"
+        class="form-control"
+        [ngClass]="{
+        'is-invalid': childForm.get('birthday')?.errors, 
+        'is-valid': childForm.get('birthday')?.touched && childForm.get('birthday')?.valid 
+        }"
+        type="text"
+        maxLength="8"
+        formControlName="birthday"
+      />
+      <div
+        *ngIf="childForm.get('birthday')?.invalid"
+        class="invalid-feedback">
+        <span
+          *ngIf="childForm.get('birthday')?.hasError('minLength') ||
+          childForm.get('birthday')?.hasError('pattern') ||
+          childForm.get('birthday')?.hasError('invalidBirthday')"
+        >
+          invalid birthday
+        </span>
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="age" class="form-label">Age:</label>
+      <input
+        type="text"
+        id="age"
+        class="form-control"
+        [ngClass]="{
+        'is-invalid': childForm.get('age')?.errors && (childForm.get('age')?.touched
+        || childForm.get('age')?.dirty),
+        'is-valid': childForm.get('age')?.valid
+        }"
+        formControlName="age"
+      />
+      <div
+        *ngIf="childForm.get('age')?.invalid && childForm.get('age')?.touched"
+        class="invalid-feedback">
+        <span
+          *ngIf="childForm.get('age')?.hasError('required')"
+        >
+          required
+        </span>
+      </div>
+    </div>
+    <div formGroupName="address" class="mb-3">
+      <p>Address:</p>
+      <div>
+        <div class="row">
+          <div class="col-6">
+            <label for="city" class="form-label">City:</label>
+            <select 
+              id="city"
+              class="form-select"
+              [ngClass]="{
+              'is-invalid': childForm.get('address.city')?.errors && (childForm.get('address.city')?.touched
+              || childForm.get('address.city')?.dirty),
+              'is-valid': childForm.get('address.city')?.valid
+              }"
+              formControlName="city"
+            >
+              <option
+                *ngFor="let city of cityList"
+                [ngValue]="city.cityName"
+              >
+                {{ city.cityName }}
+              </option>
+            </select>
+            <div
+              *ngIf="childForm.get('address.city')?.invalid"
+              class="invalid-feedback">
+              <span
+                *ngIf="childForm.get('address.city')?.hasError('required')"
+              >
+                required
+              </span>
+            </div>
+          </div>
+          <div class="col-6">
+            <label for="district" class="form-label">District:</label>
+            <select
+              for="district"
+              class="form-select"
+              [ngClass]="{
+              'is-invalid': childForm.get('address.district')?.errors && (childForm.get('address.district')?.touched
+              || childForm.get('address.district')?.dirty),
+              'is-valid': childForm.get('address.district')?.valid
+              }"
+              formControlName="district"
+            >
+              <option
+                for="district"
+                *ngFor="let district of districtList"
+                [ngValue]="district"
+              >
+                {{ district}}
+              </option>
+            </select>
+            <div
+              *ngIf="childForm.get('address.district')?.invalid"
+              class="invalid-feedback">
+              <span
+                *ngIf="childForm.get('address.district')?.hasError('required')"
+              >
+                required
+              </span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <label for="street" class="form-label">Street:</label>
+          <input
+            id="street"
+            class="form-control"
+            [ngClass]="{
+            'is-invalid': childForm.get('address.street')?.errors && (childForm.get('address.street')?.touched
+            || childForm.get('address.street')?.dirty),
+            'is-valid': childForm.get('address.street')?.valid
+            }"
+            type="text"
+            formControlName="street"
+          />
+          <div
+            *ngIf="childForm.get('address.street')?.invalid && childForm.get('address.street')?.touched"
+            class="invalid-feedback">
+            <span
+              *ngIf="childForm.get('address.street')?.hasError('required')"
+            >
+              required
+            </span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="mb-3">
+      <label for="email" class="form-label">Email:</label>
+      <input
+        type="email"
+        class="form-control"
+        [ngClass]="{
+        'is-invalid': childForm.get('email')?.errors && (childForm.get('email')?.touched
+        || childForm.get('email')?.dirty),
+        'is-valid': childForm.get('email')?.valid
+        }"
+        id="email"
+        formControlName="email"
+      />
+      <div
+        *ngIf="childForm.get('email')?.invalid && (childForm.get('email')?.touched ||
+        childForm.get('email')?.dirty)"
+        class="invalid-feedback">
+        <span
+          *ngIf="childForm.get('email')?.hasError('required')"
+        >
+          required
+        </span>
+        <span
+          *ngIf="childForm.get('email')?.hasError('email')"
+        >
+          invalid email
+        </span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div
+        formArrayName="hobbies"
+        *ngFor="let hobby of hobbyControlArray.controls; let hobbyIndex = index"
+        class="col-6 mb-3"
+      >
+        <div [formGroupName]="hobbyIndex">
+          <div>
+            <label [for]="'hobby-name'+hobbyIndex" class="form-label">
+              {{ 'Hobby Name' + (hobbyIndex + 1) +'(*)' }}:
+            </label>
+            <input
+              [id]="'hobby-name'+hobbyIndex"
+              class="form-control"
+              [ngClass]="{
+              'is-invalid': hobby.get('hobbyName')?.errors && (hobby.get('hobbyName')?.touched
+              || hobby.get('hobbyName')?.dirty),
+              'is-valid': hobby.get('hobbyName')?.valid
+              }"
+              type="text"
+              formControlName="hobbyName"
+            />
+            <div
+              *ngIf="hobby.get('hobbyName')?.invalid && hobby.get('hobbyName')?.touched"
+              class="invalid-feedback">
+              <span
+                *ngIf="hobby.get('hobbyName')?.hasError('required')"
+              >
+                required
+              </span>
+            </div>
+          </div>
+          <div>
+            <label [for]="'hobby-duration'+hobbyIndex" class="form-label">
+              {{ 'Hobby Duration' + (hobbyIndex + 1) +'(*)' }}:
+            </label>
+            <input
+              [id]="'hobby-duration' + hobbyIndex"
+              class="form-control"
+              [ngClass]="{
+              'is-invalid': hobby.get('hobbyDuration')?.errors && (hobby.get('hobbyDuration')?.touched
+              || hobby.get('hobbyDuration')?.dirty),
+              'is-valid': hobby.get('hobbyDuration')?.valid
+              }"
+              type="text"
+              formControlName="hobbyDuration"
+            />
+            <div
+              *ngIf="hobby.get('hobbyDuration')?.invalid && hobby.get('hobbyDuration')?.touched"
+              class="invalid-feedback">
+              <span
+                *ngIf="hobby.get('hobbyDuration')?.hasError('required')"
+              >
+                required
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-end mt-3">
+          <button
+            type="button"
+            class="btn btn-danger"
+            (click)="onRemoveHobbyControl(hobbyIndex)"
+            *ngIf="hobbyControlArray.controls.length > 2"
+          >
+            Remove this hobby
+          </button>
+        </div>
+      </div>
+    </div> 
+
+    <!-- <div -->
+    <!--   formArrayName="hobbies" -->
+    <!--   *ngFor="let hobby of hobbyControlArray.controls; let hobbyIndex = index" -->
+    <!-- > -->
+    <!--   <div [formGroupName]="hobbyIndex"> -->
+    <!--     <div class="col-6"> -->
+    <!--       <div> -->
+    <!--         <label [for]="'hobby-name'+hobbyIndex" class="form-label"> -->
+    <!--           {{ 'Hobby Name' + (hobbyIndex + 1) }}: -->
+    <!--         </label> -->
+    <!--         <input -->
+    <!--           [id]="'hobby-name'+hobbyIndex" -->
+    <!--           class="form-control" -->
+    <!--           type="text" -->
+    <!--           formControlName="hobbyName" -->
+    <!--         /> -->
+    <!--       </div> -->
+    <!--       <div> -->
+    <!--         <label [for]="'hobby-duration'+hobbyIndex" class="form-label"> -->
+    <!--           {{ 'Hobby Duration' + (hobbyIndex + 1) }}: -->
+    <!--         </label> -->
+    <!--         <input -->
+    <!--           [id]="'hobby-duration' + hobbyIndex" -->
+    <!--           class="form-control" -->
+    <!--           type="text" -->
+    <!--           formControlName="hobbyDuration" -->
+    <!--         /> -->
+    <!--       </div> -->
+    <!--     </div> -->
+    <!--   </div> -->
+    <!--   <div> -->
+    <!--     <button -->
+    <!--       type="button" -->
+    <!--       (click)="onRemoveHobbyControl(hobbyIndex)" -->
+    <!--       *ngIf="hobbyIndex > 1" -->
+    <!--     > -->
+    <!--       Remove this hobby -->
+    <!--     </button> -->
+    <!--   </div> -->
+    <!-- </div> -->
+
+    <div class="d-flex justify-content-end my-2">
+      <button type="button"
+        class="btn btn-info"
+        (click)="onAddNewHobbyControl()"
+      >
+        Add a new hobby
+      </button>
+    </div>
+
+    <div class="form-floating">
+      <textarea
+        style="height: 100px"
+        class="form-control"
+        [ngClass]="{
+        'is-invalid': childForm.get('introduction')?.errors && (childForm.get('introduction')?.touched
+        || childForm.get('introduction')?.dirty),
+        'is-valid': childForm.get('introduction')?.valid
+        }"
+        maxlength="100"
+        formControlName="introduction"
+      >
+      </textarea>
+      <label for="introduction">Self introduction:</label>
+      <div
+        *ngIf="childForm.get('introduction')?.invalid && (childForm.get('introduction')?.touched ||
+        childForm.get('introduction')?.dirty)"
+        class="invalid-feedback">
+        <span
+          *ngIf="childForm.get('introduction')?.hasError('required')"
+        >
+          required
+        </span>
+      </div>
+    </div>
+
+    <!-- </div> -->
+
+  </div>
+</div>
