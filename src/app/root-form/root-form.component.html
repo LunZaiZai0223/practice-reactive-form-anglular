@@ -102,6 +102,15 @@
                 invalid birthday
               </span>
             </div>
+            <ng-container
+              *ngIf="myForm.get('father.birthday')?.valid
+              && 
+              myForm.get('father.birthday')?.value !== ''"
+            >
+              <div>
+                {{ myForm.get('father.birthday')?.value | localYear }}
+              </div>
+            </ng-container>
           </div>
           <div class="mb-3">
             <label for="father-age" class="form-label">Age(*):</label> 
@@ -214,6 +223,15 @@
                 invalid birthday
               </span>
             </div>
+            <ng-container
+              *ngIf="myForm.get('mother.birthday')?.valid
+              && 
+              myForm.get('mother.birthday')?.value !== ''"
+            >
+              <div>
+                {{ myForm.get('mother.birthday')?.value | localYear }}
+              </div>
+            </ng-container>
           </div>
           <div class="mb-3">
             <label for="mother-age" class="form-label">Age:</label> 

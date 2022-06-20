@@ -85,6 +85,15 @@
           invalid birthday
         </span>
       </div>
+      <ng-container
+        *ngIf="childForm.get('birthday')?.valid
+        && 
+        childForm.get('birthday')?.value !== ''"
+      >
+        <div>
+          {{ childForm.get('birthday')?.value | localYear }}
+        </div>
+      </ng-container>
     </div>
     <div class="mb-3">
       <label for="age" class="form-label">Age:</label>

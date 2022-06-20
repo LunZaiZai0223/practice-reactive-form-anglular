@@ -8,6 +8,7 @@ import { ChildFormComponent } from './child-form/child-form.component';
 import { SubFormComponent } from './root-form/sub-form/sub-form.component';
 import { TestComponent } from './test/test.component';
 import { ValueListComponent } from './root-form/value-list/value-list.component';
+import { LocalYearPipe } from './pipes/local-year.pipe';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { ValueListComponent } from './root-form/value-list/value-list.component'
     SubFormComponent,
     TestComponent,
     ValueListComponent,
+    LocalYearPipe,
   ],
   imports: [
     BrowserModule,

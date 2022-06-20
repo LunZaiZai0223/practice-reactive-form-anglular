@@ -60,6 +60,7 @@ export class RootFormComponent implements OnInit {
     this.editId = '';
     this.formInit();
     // this.setDataInSessionLength();
+    console.log(this.myForm.get('father.birthday')?.value);
     this.addBirthdayControlHandler();
     // this.setValueList();
     // sessionStorage.setItem('key01', JSON.stringify(this.myForm.getRawValue()));
@@ -110,6 +111,7 @@ export class RootFormComponent implements OnInit {
     // this.myForm.removeControl('employee');
     this.formInit();
     console.log(this.myForm);
+    this.addBirthdayControlHandler();
     // console.log(this.myForm);
     // this.employeeGroup.get('introduction')?.reset();
     // this.myForm.reset();
@@ -228,16 +230,13 @@ export class RootFormComponent implements OnInit {
   // }
 
   handleChangeBirthday(selectedBirthday: string, birthdayControl: FormControl, ageControl: FormControl): void {
-    console.log(123);
     const { valid, value }: { valid: boolean, value: string } = birthdayControl;
-    console.log(valid, value);
     if (!valid) return;
     if (value === '') {
+      // 刪除全部 birthday 確保 pipe 不會出現
+      birthdayControl.markAsPristine();
       return ageControl.setValue('');
     }
-    // const bornYear: number = Number(value.slice(0, 3));
-    // const isBornYearValid: boolean = this.checkBornYearValid(bornYear);
-    // if (isBornYearValid) return;
     const formatBirthday: string = selectedBirthday.slice(0, 4) + '/' + selectedBirthday.slice(4, 6) + '/' + selectedBirthday.slice(6, 8);
     const age: number = this.getAge(formatBirthday);
     console.log(selectedBirthday);
@@ -341,8 +340,11 @@ export class RootFormComponent implements OnInit {
   }
 
   onSetEditMode(id: string) {
+    this.formInit();
+    this.addBirthdayControlHandler();
     console.log(id);
     this.setEditId(id);
+    console.log(this.employeeGroup);
     const found = JSON.parse(sessionStorage.getItem(id) || '{}');
     console.log(found);
     this.setParentFormValue(found);
@@ -352,9 +354,15 @@ export class RootFormComponent implements OnInit {
   setParentFormValue(found: any): void {
     Object.entries(found).forEach((arr) => {
       if (arr[0] === 'father' || arr[0] === 'mother') {
+        console.log('應該只會出現兩次而已喔');
         this.myForm.get(arr[0])?.setValue(arr[1])
+        console.log(this.employeeGroup);
+        console.log('==========!!!!!!!============~~~~~~');
       }
     });
+
+    // console.log(this.employeeGroup);
+    // console.log('end of the parent setValue');
   }
 
   setEmployeeFormValue(found: any) {
@@ -366,29 +374,17 @@ export class RootFormComponent implements OnInit {
     }
 
     this.hobbyListInit(hobbiesLength);
+    console.log(this.employeeGroup);
 
-    // console.log(Object.entries(employee));
     Object.entries(employee).forEach((arr) => {
       if (arr[0] === 'hobbies') {
-        console.log(arr[1]);
         this.employeeGroup.get('hobbies')?.setValue(arr[1], { emitEvent: false });
       } else if (arr[0] === 'address') {
         this.employeeGroup.get('address')?.setValue(arr[1], { emitEvent: false });
       } else {
-        console.log(arr);
-        console.log(this.employeeGroup);
-        for(let i = 0; i < 5; i++) {
-          console.log(i);
-        }
         this.employeeGroup.get(arr[0])?.patchValue(arr[1], { emitEvent: false });
-        console.log(this.employeeGroup);
-        console.log('end ========');
       }
     });
-    // console.log(this.employeeGroup);
-
-    // 不知道為什麼 age 要另外寫才可以
-    // this.employeeAgeControl.setValue(employee.age);
   }
 
   onSaveEdit(): void {
@@ -397,11 +393,13 @@ export class RootFormComponent implements OnInit {
     this.editId = '';
     this.setParentStringifiedList();
     this.formInit();
+    this.addBirthdayControlHandler();
   }
 
   onBackToNormalMode(): void {
     this.editId = '';
     this.formInit();
+    this.addBirthdayControlHandler();
   }
 
   onDeletedSessionStorageItem(id: string):void {
@@ -422,5 +420,5 @@ export class RootFormComponent implements OnInit {
     this.onBackToNormalMode();
     this.setParentStringifiedList();
   }
-  
+
 }

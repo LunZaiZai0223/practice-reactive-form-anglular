@@ -15,7 +15,7 @@ export class AppComponent implements OnInit {
     this.testForm = this.fb.group({
       testParent: [''],
     });
-    console.log(this.testForm);
+    // console.log(this.testForm);
   }
 
   addChild(name: string, group: FormGroup): void {
