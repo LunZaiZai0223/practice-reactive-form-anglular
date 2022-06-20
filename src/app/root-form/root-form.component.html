@@ -31,11 +31,14 @@
               [ngClass]="{
               'is-invalid': myForm.get('father.name')?.errors &&
               (myForm.get('father.name')?.touched || myForm.get('father.name')?.dirty),
-              'is-valid': myForm.get('father.name')?.valid 
+              'is-valid': myForm.get('father.name')?.valid
               }"
               placeholder="father's name"
               formControlName="name"
+              appLabelChange
+              [editId]="editId"
             />
+              <!-- directive form control -->
             <div
               *ngIf="myForm.get('father.name')?.invalid && myForm.get('father.name')?.touched"
               class="invalid-feedback">
@@ -55,11 +58,13 @@
               [ngClass]="{
               'is-invalid': myForm.get('father.id')?.errors && (myForm.get('father.id')?.touched ||
               myForm.get('father.id')?.dirty),
-              'is-valid': myForm.get('father.id')?.valid 
+              'is-valid': myForm.get('father.id')?.valid
               }"
               placeholder="father's id"
               maxlength="10"
               formControlName="id"
+              appLabelChange
+              [editId]="editId"
             />
             <div
               *ngIf="myForm.get('father.id')?.invalid && (myForm.get('father.id')?.touched ||
@@ -85,11 +90,13 @@
               maxlength="8"
               class="form-control"
               [ngClass]="{
-              'is-invalid': myForm.get('father.birthday')?.errors, 
-              'is-valid': myForm.get('father.birthday')?.touched && myForm.get('father.birthday')?.valid 
+              'is-invalid': myForm.get('father.birthday')?.errors,
+              'is-valid': myForm.get('father.birthday')?.touched && myForm.get('father.birthday')?.valid
               }"
               placeholder="father's birthday: yyyymmdd"
               formControlName="birthday"
+              appLabelChange
+              [editId]="editId"
             />
             <div
               *ngIf="myForm.get('father.birthday')?.invalid"
@@ -104,16 +111,16 @@
             </div>
             <ng-container
               *ngIf="myForm.get('father.birthday')?.valid
-              && 
+              &&
               myForm.get('father.birthday')?.value !== ''"
             >
-              <div>
+              <div class="text-success fst-italic fst-italic">
                 {{ myForm.get('father.birthday')?.value | localYear }}
               </div>
             </ng-container>
           </div>
           <div class="mb-3">
-            <label for="father-age" class="form-label">Age(*):</label> 
+            <label for="father-age" class="form-label">Age(*):</label>
             <input
               id="father-age"
               type="text"
@@ -121,11 +128,13 @@
               [ngClass]="{
               'is-invalid': myForm.get('father.age')?.errors && (myForm.get('father.age')?.touched
               || myForm.get('father.age')?.dirty),
-              'is-valid': myForm.get('father.age')?.valid 
+              'is-valid': myForm.get('father.age')?.valid
               }"
               placeholder="father's age"
               maxlength="3"
               formControlName="age"
+              appLabelChange
+              [editId]="editId"
             />
             <div
               *ngIf="myForm.get('father.age')?.invalid && myForm.get('father.age')?.touched"
@@ -150,12 +159,14 @@
               class="form-control"
               [ngClass]="{
               'is-invalid': myForm.get('mother.name')?.errors &&
-              (myForm.get('mother.name')?.touched || myForm.get('mother.name')?.dirty), 
-              'is-valid': myForm.get('mother.name')?.valid 
+              (myForm.get('mother.name')?.touched || myForm.get('mother.name')?.dirty),
+              'is-valid': myForm.get('mother.name')?.valid
               }"
               type="text"
               placeholder="mother's name"
               formControlName="name"
+              appLabelChange
+              [editId]="editId"
             />
             <div
               *ngIf="myForm.get('mother.name')?.invalid && myForm.get('mother.name')?.touched"
@@ -181,6 +192,8 @@
               maxlength="10"
               placeholder="mother's id"
               formControlName="id"
+              appLabelChange
+              [editId]="editId"
             />
             <div
               *ngIf="myForm.get('mother.id')?.invalid && (myForm.get('mother.id')?.touched ||
@@ -204,13 +217,15 @@
               id="mother-birthday"
               class="form-control"
               [ngClass]="{
-              'is-invalid': myForm.get('mother.birthday')?.errors, 
-              'is-valid': myForm.get('mother.birthday')?.touched && myForm.get('mother.birthday')?.valid 
+              'is-invalid': myForm.get('mother.birthday')?.errors,
+              'is-valid': myForm.get('mother.birthday')?.touched && myForm.get('mother.birthday')?.valid
               }"
               type="text"
               maxlength="8"
               placeholder="mother's birthday: yyyymmdd"
               formControlName="birthday"
+              appLabelChange
+              [editId]="editId"
             />
             <div
               *ngIf="myForm.get('mother.birthday')?.invalid"
@@ -225,16 +240,16 @@
             </div>
             <ng-container
               *ngIf="myForm.get('mother.birthday')?.valid
-              && 
+              &&
               myForm.get('mother.birthday')?.value !== ''"
             >
-              <div>
+              <div class="text-success fst-italic fst-italic">
                 {{ myForm.get('mother.birthday')?.value | localYear }}
               </div>
             </ng-container>
           </div>
           <div class="mb-3">
-            <label for="mother-age" class="form-label">Age:</label> 
+            <label for="mother-age" class="form-label">Age:</label>
             <input
               id="mother-age"
               class="form-control"
@@ -246,6 +261,8 @@
               type="text"
               placeholder="mother's day"
               formControlName="age"
+              appLabelChange
+              [editId]="editId"
             />
             <div
               *ngIf="myForm.get('mother.age')?.invalid && myForm.get('mother.age')?.touched"
@@ -266,6 +283,7 @@
     <!-- NOTE: only pass STRING to child not properties of parent -->
     <app-child-form
       formGroupName="employee"
+      [currentEditId]="editId"
       *ngIf="fatherGroup.valid && motherGroup.valid"
     ></app-child-form>
       <!-- *ngIf="fatherGroup.valid && motherGroup.valid" -->
@@ -276,7 +294,7 @@
     <!-- ></app-sub-form> -->
 
     <div class="d-flex justify-content-end my-4">
-      <button 
+      <button
         type="submit"
         class="btn btn-success"
         [disabled]="myForm.invalid"
@@ -316,7 +334,7 @@
   <!-- <button class="btn btn-info" (click)="testCheck()">Check</button> -->
     <!-- [list]="valueList" -->
     <!-- [reload]="needReloadList" -->
-  <app-value-list 
+  <app-value-list
     [childStringifiedList]="parentStringifiedList"
     (onEmittedEditId)="onSetEditMode($event)"
     (onEmittedEditIdForDelete)="onDeletedSessionStorageItem($event)"

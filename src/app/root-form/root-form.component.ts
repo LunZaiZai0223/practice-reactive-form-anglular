@@ -11,6 +11,8 @@ export class RootFormComponent implements OnInit {
   // dataInSessionLength!: number;
   // valueList!: any[];
   editId!: string;
+  clonedData: any = {};
+  clonedChildData: any = {};
 
   parentStringifiedList: string = '';
 
@@ -341,12 +343,14 @@ export class RootFormComponent implements OnInit {
 
   onSetEditMode(id: string) {
     this.formInit();
+    this.editId = '';
     this.addBirthdayControlHandler();
     console.log(id);
     this.setEditId(id);
     console.log(this.employeeGroup);
     const found = JSON.parse(sessionStorage.getItem(id) || '{}');
-    console.log(found);
+    this.setClonedData(found);
+    console.log(this.clonedData);
     this.setParentFormValue(found);
     this.setEmployeeFormValue(found);
   }
@@ -354,18 +358,12 @@ export class RootFormComponent implements OnInit {
   setParentFormValue(found: any): void {
     Object.entries(found).forEach((arr) => {
       if (arr[0] === 'father' || arr[0] === 'mother') {
-        console.log('應該只會出現兩次而已喔');
         this.myForm.get(arr[0])?.setValue(arr[1])
-        console.log(this.employeeGroup);
-        console.log('==========!!!!!!!============~~~~~~');
       }
     });
-
-    // console.log(this.employeeGroup);
-    // console.log('end of the parent setValue');
   }
 
-  setEmployeeFormValue(found: any) {
+  setEmployeeFormValue(found: any): void {
     const { employee } = found;
     const hobbiesLength = employee.hobbies.length;
 
@@ -374,7 +372,6 @@ export class RootFormComponent implements OnInit {
     }
 
     this.hobbyListInit(hobbiesLength);
-    console.log(this.employeeGroup);
 
     Object.entries(employee).forEach((arr) => {
       if (arr[0] === 'hobbies') {
@@ -385,6 +382,11 @@ export class RootFormComponent implements OnInit {
         this.employeeGroup.get(arr[0])?.patchValue(arr[1], { emitEvent: false });
       }
     });
+  }
+
+  setClonedData(found: any): void {
+    this.clonedData = found;
+    this.clonedChildData = found.employee;
   }
 
   onSaveEdit(): void {

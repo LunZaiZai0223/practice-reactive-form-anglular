@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
 
 import { City, districtListOfTP, districtListOfKS } from '../shared/index';
@@ -8,8 +8,9 @@ import { City, districtListOfTP, districtListOfKS } from '../shared/index';
   templateUrl: './child-form.component.html',
   styleUrls: ['./child-form.component.css']
 })
-export class ChildFormComponent implements OnInit {
+export class ChildFormComponent implements OnInit, OnChanges {
   @Input() formGroupName!: string;
+  @Input() currentEditId: string = '';
 
   childForm!: FormGroup;
   cityList: City[] = [];
@@ -31,6 +32,10 @@ export class ChildFormComponent implements OnInit {
   //   結構的問題 
   //   addControl
   constructor(private rootFormGroup: FormGroupDirective, private fb: FormBuilder) { }
+  
+  ngOnChanges(): void {
+    console.log('input changed');
+  }
 
   ngOnInit(): void {
     this.childForm = this.rootFormGroup.control.get(this.formGroupName) as FormGroup;

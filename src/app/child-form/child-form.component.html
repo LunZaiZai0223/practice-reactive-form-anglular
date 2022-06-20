@@ -10,15 +10,17 @@
 
     <div class="mb-3">
       <label for="name" class="form-label">Name:</label>
-      <input 
+      <input
         type="text"
         id="name"
         [ngClass]="{
         'is-invalid': childForm.get('name')?.errors && childForm.get('name')?.touched,
-        'is-valid': childForm.get('name')?.dirty && childForm.get('name')?.valid 
+        'is-valid': childForm.get('name')?.dirty && childForm.get('name')?.valid
         }"
         class="form-control"
         formControlName="name"
+        appLabelChange
+        [editId]="currentEditId"
       />
       <div
         *ngIf="childForm.get('name')?.invalid && childForm.get('name')?.touched"
@@ -44,6 +46,8 @@
         maxlength="10"
         class="form-control"
         formControlName="id"
+        appLabelChange
+        [editId]="currentEditId"
       />
       <div
         *ngIf="childForm.get('id')?.invalid && (childForm.get('id')?.touched ||
@@ -67,12 +71,14 @@
         id="birthday"
         class="form-control"
         [ngClass]="{
-        'is-invalid': childForm.get('birthday')?.errors, 
-        'is-valid': childForm.get('birthday')?.touched && childForm.get('birthday')?.valid 
+        'is-invalid': childForm.get('birthday')?.errors,
+        'is-valid': childForm.get('birthday')?.touched && childForm.get('birthday')?.valid
         }"
         type="text"
         maxLength="8"
         formControlName="birthday"
+        appLabelChange
+        [editId]="currentEditId"
       />
       <div
         *ngIf="childForm.get('birthday')?.invalid"
@@ -87,10 +93,10 @@
       </div>
       <ng-container
         *ngIf="childForm.get('birthday')?.valid
-        && 
+        &&
         childForm.get('birthday')?.value !== ''"
       >
-        <div>
+        <div class="text-success fst-italic">
           {{ childForm.get('birthday')?.value | localYear }}
         </div>
       </ng-container>
@@ -107,6 +113,8 @@
         'is-valid': childForm.get('age')?.valid
         }"
         formControlName="age"
+        appLabelChange
+        [editId]="currentEditId"
       />
       <div
         *ngIf="childForm.get('age')?.invalid && childForm.get('age')?.touched"
@@ -124,7 +132,7 @@
         <div class="row">
           <div class="col-6">
             <label for="city" class="form-label">City:</label>
-            <select 
+            <select
               id="city"
               class="form-select"
               [ngClass]="{
@@ -133,6 +141,8 @@
               'is-valid': childForm.get('address.city')?.valid
               }"
               formControlName="city"
+              appLabelChange
+              [editId]="currentEditId"
             >
               <option
                 *ngFor="let city of cityList"
@@ -162,6 +172,8 @@
               'is-valid': childForm.get('address.district')?.valid
               }"
               formControlName="district"
+              appLabelChange
+              [editId]="currentEditId"
             >
               <option
                 for="district"
@@ -194,6 +206,8 @@
             }"
             type="text"
             formControlName="street"
+            appLabelChange
+            [editId]="currentEditId"
           />
           <div
             *ngIf="childForm.get('address.street')?.invalid && childForm.get('address.street')?.touched"
@@ -220,6 +234,8 @@
         }"
         id="email"
         formControlName="email"
+        appLabelChange
+        [editId]="currentEditId"
       />
       <div
         *ngIf="childForm.get('email')?.invalid && (childForm.get('email')?.touched ||
@@ -259,6 +275,8 @@
               }"
               type="text"
               formControlName="hobbyName"
+              appLabelChange
+              [editId]="currentEditId"
             />
             <div
               *ngIf="hobby.get('hobbyName')?.invalid && hobby.get('hobbyName')?.touched"
@@ -284,6 +302,8 @@
               }"
               type="text"
               formControlName="hobbyDuration"
+              appLabelChange
+              [editId]="currentEditId"
             />
             <div
               *ngIf="hobby.get('hobbyDuration')?.invalid && hobby.get('hobbyDuration')?.touched"
@@ -307,7 +327,7 @@
           </button>
         </div>
       </div>
-    </div> 
+    </div>
 
     <!-- <div -->
     <!--   formArrayName="hobbies" -->
@@ -370,6 +390,9 @@
         }"
         maxlength="100"
         formControlName="introduction"
+        appLabelChange
+        [isLabelNextSibling]="true"
+        [editId]="currentEditId"
       >
       </textarea>
       <label for="introduction">Self introduction:</label>
